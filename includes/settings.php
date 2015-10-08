@@ -25,7 +25,7 @@ $CONFIG['proxy_lookup_config'] = array(
     'username' => 'glyperemote',
     'password' => 'AIOUDYH97',
     'dbname' => 'ipmonitoring_new',
-    'default_port' => 3128 );
+    'default_port' => 21542 );
 
 /*****************************************************************
 * Special Options
