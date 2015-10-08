@@ -332,7 +332,7 @@ if ( $dblink->connect_errno ) {
 		// We got a row, so set the appropriate curl options.
 		$toSet[CURLOPT_PROXY] = $row['ip'];
 		$toSet[CURLOPT_PROXYPORT] = $CONFIG['proxy_lookup_config']['default_port'];
-		$toSet[CURLOPT_PROXYAUTH] = CURLAUTH_NTLM;
+		//$toSet[CURLOPT_PROXYAUTH] = CURLAUTH_NTLM;
 		$toSet[CURLOPT_PROXYUSERPWD] = $row['username'] . ':' .  $row['password'];
 	} else {
 		// No data, so fail gracefully.
