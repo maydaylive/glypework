@@ -11,6 +11,11 @@
 * resource to download and pass onto the user.
 ******************************************************************/
 
+/*******************************************************************
+* 08/10/2015 - IKW - Added ability to look up a random proxy to
+* pass the request to.
+******************************************************************/
+
 /*****************************************************************
 * Initialise
 ******************************************************************/
@@ -299,10 +304,44 @@ if (
 	}
 }
 
-
 /*****************************************************************
 * * * * * * * * * * Prepare the REQUEST * * * * * * * * * * * *
 ******************************************************************/
+
+/*****************************************************************
+* Set the Proxy to pass this request through to.
+* First, connect to the database with a persistent connection and
+* retrieve the details of the proxy we will pass this request to.
+* the persistent connection details are stored in config in
+* the file settings.php.
+******************************************************************/
+
+$dblink = mysqli_connect($CONFIG['proxy_lookup_config']['host'],
+	$CONFIG['proxy_lookup_config']['username'],
+	$CONFIG['proxy_lookup_config']['password'],
+	$CONFIG['proxy_lookup_config']['dbname']);
+
+if ( $dblink->connect_errno ) {
+	// No database connection, so fail gracefully.
+	error('proxy_lookup_error', 'DB connection failed: (' . $dblink->connect_errno . ')' );
+	return;
+} else {
+	$resultset = mysqli_query( "select * from iplist_115_ua where status='OK' order by RAND() limit 1" );
+	$resultset->data_seek(0);
+	if ( $row = $resultset->fetch_assoc() ) {
+		// We got a row, so set the appropriate curl options.
+		$toSet[CURLOPT_PROXY] = $row['ip'];
+		$toSet[CURLOPT_PROXYPORT] = $CONFIG['proxy_lookup_config']['default_port'];
+		$toSet[CURLOPT_PROXYAUTH] = CURLAUTH_NTLM;
+		$toSet[CURLOPT_PROXYUSERPWD] = $row['username'] . ':' .  $row['password'];
+	} else {
+		// No data, so fail gracefully.
+		error('proxy_lookup_error', 'No proxies to pass to.');
+		return;
+	}
+
+	mysqli_close( $dblink );
+}
 
 /*****************************************************************
 * Set cURL transfer options
