@@ -326,7 +326,7 @@ if ( $dblink->connect_errno ) {
 	error('proxy_lookup_error', 'DB connection failed: (' . $dblink->connect_errno . ')' );
 	return;
 } else {
-	$resultset = mysqli_query( "select * from iplist_115_ua where status='OK' order by RAND() limit 1" );
+	$resultset = mysqli_query( $dblink, "select * from iplist_115_ua where status='OK' order by RAND() limit 1" );
 	$resultset->data_seek(0);
 	if ( $row = $resultset->fetch_assoc() ) {
 		// We got a row, so set the appropriate curl options.
