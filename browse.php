@@ -321,7 +321,7 @@ $dblink = mysqli_connect($CONFIG['proxy_lookup_config']['host'],
 	$CONFIG['proxy_lookup_config']['password'],
 	$CONFIG['proxy_lookup_config']['dbname']);
 
-if ( $dblink->connect_errno ) {
+if ( !$dblink || $dblink->connect_errno ) {
 	// No database connection, so fail gracefully.
 	error('proxy_lookup_error', 'DB connection failed: (' . $dblink->connect_errno . ')' );
 	return;
@@ -329,6 +329,8 @@ if ( $dblink->connect_errno ) {
 	$resultset = mysqli_query( $dblink, "select * from iplist_115_ua where status='OK' order by RAND() limit 1" );
 	$resultset->data_seek(0);
 	if ( $row = $resultset->fetch_assoc() ) {
+		//print_r( $row );
+		//die;
 		// We got a row, so set the appropriate curl options.
 		$toSet[CURLOPT_PROXY] = $row['ip'];
 		$toSet[CURLOPT_PROXYPORT] = $CONFIG['proxy_lookup_config']['default_port'];

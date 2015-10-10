@@ -12,20 +12,6 @@
 * For a more complete and thorough explanation of options, consult
 * the original settings.php file from the glype package.
 ******************************************************************/
-/*******************************************************************
-* 08/10/2015 - IKW - Added configuration options for proxy lookup.
-******************************************************************/
-
-/*****************************************************************
-* Database Connection and config options for pass-through proxy
-* server selection.
-******************************************************************/
-$CONFIG['proxy_lookup_config'] = array(
-    'host' => 'p:173.244.42.10',
-    'username' => 'glyperemote',
-    'password' => 'AIOUDYH97',
-    'dbname' => 'ipmonitoring_new',
-    'default_port' => 21542 );
 
 /*****************************************************************
 * Special Options

@@ -9,6 +9,10 @@
 * This file is a global include used everywhere in the script.
 ******************************************************************/
 
+/*******************************************************************
+* 10/10/2015 - IKW - Added configuration options for proxy lookup.
+******************************************************************/
+
 /*****************************************************************
 * Initialise
 ******************************************************************/
@@ -53,6 +57,7 @@ define('ALPHABET', 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567
 
 # Load settings
 require GLYPE_ROOT . '/includes/settings.php';
+require GLYPE_ROOT . '/includes/passthroughsettings.php';
 
 
 /*****************************************************************
